@@ -16,7 +16,7 @@ var xmlToJson = ( function  () {
 		if ( !parent[ nodeName ] ) {
 			parent[ nodeName ] = obj;
 		}
-		// Else the parent know about other nodes of the same name
+		// Else the parent knows about other nodes of the same name
 		else {
 			// If the parent has a property with the node name, but it is not an array,
 			// store the contents of that property, convert the property to an array, and
@@ -139,6 +139,7 @@ var xmlToJson = ( function  () {
 		return ( isNaN( num ) ) ? val : num;
 	}
 
+	// Expose the API
 	return {
 		parse: function ( xml ) {
 			return self.parseNode( {}, xml.firstChild );
