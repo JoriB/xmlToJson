@@ -142,7 +142,7 @@ var xmlToJson = ( function  () {
 	// Expose the API
 	return {
 		parse: function ( xml ) {
-			return self.parseNode( {}, xml.firstChild );
+			return ( xml ) ? self.parseNode( {}, xml.firstChild ) : null;
 		}
 	}
 })();
