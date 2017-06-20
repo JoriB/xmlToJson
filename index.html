@@ -9,7 +9,7 @@
 	$(function () {
 		$.ajax({
 			url: './example.xml',
-			method: 'get',
+			method: 'GET',
 			dataType: 'xml',
 			success: function ( xml ) {
 				var data = xmlToJson.parse( xml );

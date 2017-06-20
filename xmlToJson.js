@@ -31,7 +31,21 @@ var xmlToJson = ( function  () {
 			// Push the current object to the collection
 			parent[ nodeName ].push( obj );
 		}
-	}
+	};
+
+
+	/**
+	* Validates if an data is an XMLDocument
+	*
+	* @method isXML
+	* @param {Mixed} data
+	* @return {Boolean}
+	*/
+	self.isXML = function ( data ) {
+		var documentElement = (data ? data.ownerDocument || data : 0).documentElement;
+
+		return documentElement ? documentElement.nodeName.toLowerCase() !== 'html' : false;
+	};
 
 
 	/**
@@ -55,7 +69,7 @@ var xmlToJson = ( function  () {
 
 		// return the new object
 		return obj;
-	}
+	};
 
 
 	/**
@@ -77,7 +91,7 @@ var xmlToJson = ( function  () {
 				}
 			}
 		}
-	}
+	};
 
 
 	/**
@@ -116,7 +130,7 @@ var xmlToJson = ( function  () {
 
 		// Return the parent
 		return parent;
-	}
+	};
 
 
 	/**
@@ -137,12 +151,12 @@ var xmlToJson = ( function  () {
 
 		// If the num parsed to a Number, return the numeric value, else return the param as is
 		return ( isNaN( num ) ) ? val : num;
-	}
+	};
 
 	// Expose the API
 	return {
 		parse: function ( xml ) {
-			return ( xml ) ? self.parseNode( {}, xml.firstChild ) : null;
+			return ( xml && self.isXML( xml ) ) ? self.parseNode( {}, xml.firstChild ) : null;
 		}
 	}
 })();
