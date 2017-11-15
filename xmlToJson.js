@@ -1,5 +1,49 @@
+/**
+* Object assign is required, so ensure that browsers know how to execute this method
+*
+* @method Object.assign
+* @return {Function}
+*/
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) { // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
+
+
+/**
+* Object to convert XML into a structured JSON object
+*
+* @method xmlToJson
+* @return {Object}
+*/
 var xmlToJson = ( function  () {
 	var self = this;
+
 
 	/**
 	* Adds an object value to a parent object
@@ -141,7 +185,7 @@ var xmlToJson = ( function  () {
 	* @return {Mixed}
 	*/
 	this.parseValue = function ( val ) {
-		// Create a numeric value from the passes parameter
+		// Create a numeric value from the passed parameter
 		var num = Number( val );
 
 		// If the value is 'true' or 'false', parse it as a Boolean and return it
@@ -149,8 +193,10 @@ var xmlToJson = ( function  () {
 			return ( val.toLowerCase() == 'true' ) ? true : false;
 		}
 
-		// If the num parsed to a Number, return the numeric value, else return the param as is
-		return ( isNaN( num ) ) ? val : num;
+		// If the num parsed to a Number, return the numeric value
+		// Else if the valuse passed has no length (an attribute without value) return null,
+		// Else return the param as is
+		return ( isNaN( num ) ) ? val : ( val.length == 0 ) ? null : num;
 	};
 
 	// Expose the API
