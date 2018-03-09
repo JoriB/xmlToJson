@@ -67,7 +67,7 @@ var xmlToJson = ( function  () {
 			// assign what was formerly an object on the parent to the first member of the
 			// array
 			if ( !Array.isArray( parent[ nodeName ] ) ) {
-				tmp = parent[ nodeName ];
+				var tmp = parent[ nodeName ];
 				parent[ nodeName ] = [];
 				parent[ nodeName ].push( tmp );
 			}
@@ -76,6 +76,23 @@ var xmlToJson = ( function  () {
 			parent[ nodeName ].push( obj );
 		}
 	};
+
+
+
+
+	self.convertXMLStringToDoc = function ( str ) {
+		var xmlDoc = null;
+
+		if ( str && typeof str === 'string' ) {
+			// Create a DOMParser
+			var parser = new DOMParser();
+
+			// Use it to turn your xmlString into an XMLDocument
+			xmlDoc = parser.parseFromString( str, 'application/xml' );
+		}
+
+		return xmlDoc;
+	}
 
 
 	/**
@@ -202,6 +219,9 @@ var xmlToJson = ( function  () {
 	// Expose the API
 	return {
 		parse: function ( xml ) {
+			if ( xml && typeof xml === 'string' ) {
+				xml = this.convertXMLStringToDoc( xml );
+			}
 			return ( xml && self.isXML( xml ) ) ? self.parseNode( {}, xml.firstChild ) : null;
 		}
 	}

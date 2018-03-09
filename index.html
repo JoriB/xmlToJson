@@ -1,25 +1,28 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<title>xmlToJson</title>
 
 	<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="xmlToJson.js"></script>
 	<script type="text/javascript">
-	$(function () {
-		$.ajax({
-			url: './example.xml',
-			method: 'GET',
-			dataType: 'xml',
-			success: function ( xml ) {
-				var data = xmlToJson.parse( xml );
-				console.log( data );
-			}
+		$(function () {
+			$.ajax({
+				url: './example.xml',
+				method: 'GET',
+				dataType: 'xml',
+				success: function (xml) {
+					var data = xmlToJson.parse(xml);
+					console.log(data);
+				}
+			});
 		});
-	});
 	</script>
 </head>
+
 <body>
-Open the developer console to inspect the parsed data
+	Open the developer console to inspect the parsed data
 </body>
+
 </html>
