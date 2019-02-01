@@ -1,28 +1,27 @@
 <!doctype html>
 <html lang="en">
-
 <head>
 	<title>xmlToJson</title>
 
+	<link rel="stylesheet" href="style.css">
+
 	<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="xmlToJson.js"></script>
-	<script type="text/javascript">
-		$(function () {
-			$.ajax({
-				url: './example.xml',
-				method: 'GET',
-				dataType: 'xml',
-				success: function (xml) {
-					var data = xmlToJson.parse(xml);
-					console.log(data);
-				}
-			});
-		});
-	</script>
+	<script src="main.js"></script>
 </head>
 
 <body>
-	Open the developer console to inspect the parsed data
+	<h1>xmlToJson Converter</h1>
+
+	<div class="wrapper">
+    <h4>Library-free Javascript Singleton to convert XML to JSON. <a href="https://github.com/andrewhouser/xmlToJson">Download on GitHub</a></h4>
+		<h3>XML to transform</h3>
+		<textarea id="xmltext" name="xmltext"></textarea>
+		<p><button onclick="transform()">transform</button></p>
+		<h3>Transformed JSON</h3>
+		<div id="jsontext" class="jsontext"></div>
+	</div>
+
 </body>
 
 </html>

@@ -1,0 +1,25 @@
+{
+  "name": "xmltojson",
+  "version": "1.0.0",
+  "description": "> Library-free Javascript Singleton to convert ugly XML to JSON. < 1k minified.",
+  "main": "xmlToJson.js",
+  "scripts": {
+    "start": "parcel index.es6.html",
+    "build": "parcel build index.es6.html --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewhouser/xmlToJson.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewhouser/xmlToJson/issues"
+  },
+  "homepage": "https://github.com/andrewhouser/xmlToJson#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "parcel-bundler": "^1.6.2"
+  }
+}
