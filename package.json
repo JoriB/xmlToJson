@@ -20,6 +20,6 @@
   "homepage": "https://github.com/andrewhouser/xmlToJson#readme",
   "dependencies": {},
   "devDependencies": {
-    "parcel-bundler": "^1.6.2"
+    "parcel-bundler": "^1.11.0"
   }
 }
