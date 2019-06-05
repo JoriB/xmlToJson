@@ -5,11 +5,11 @@
  */
 export class XmlToJson {
 
-    constructor ( xml ) {
-        if ( xml ) {
-			return this.parse( xml );
-        }
-    }
+	constructor(xml) {
+		if (xml) {
+			return this.parse(xml);
+		}
+	}
 
 	/**
      * Adds an object value to a parent object
@@ -20,11 +20,11 @@ export class XmlToJson {
      * @param {Mixed} obj
      * @return none
      */
-	addToParent ( parent, nodeName, obj ) {
+	addToParent(parent, nodeName, obj) {
 		// If this is the first or only instance of the node name, assign it as
 		// an object on the parent.
-		if ( !parent[ nodeName ] ) {
-			parent[ nodeName ] = obj;
+		if (!parent[nodeName]) {
+			parent[nodeName] = obj;
 		}
 		// Else the parent knows about other nodes of the same name
 		else {
@@ -32,22 +32,22 @@ export class XmlToJson {
 			// store the contents of that property, convert the property to an array, and
 			// assign what was formerly an object on the parent to the first member of the
 			// array
-			if ( !Array.isArray( parent[ nodeName ] ) ) {
-				let tmp = parent[ nodeName ];
-				parent[ nodeName ] = [];
-				parent[ nodeName ].push( tmp );
+			if (!Array.isArray(parent[nodeName])) {
+				let tmp = parent[nodeName];
+				parent[nodeName] = [];
+				parent[nodeName].push(tmp);
 			}
 
 			// Push the current object to the collection
-			parent[ nodeName ].push( obj );
+			parent[nodeName].push(obj);
 		}
 	}
 
 
-	convertXMLStringToDoc ( str ) {
+	convertXMLStringToDoc(str) {
 		let xmlDoc = null;
 
-		if ( str && typeof str === 'string' ) {
+		if (str && typeof str === 'string') {
 			// Create a DOMParser
 			let parser = new DOMParser();
 
@@ -66,7 +66,7 @@ export class XmlToJson {
 	 * @param {Mixed} data
 	 * @return {Boolean}
 	 */
-	isXML ( data ) {
+	isXML(data) {
 		let documentElement = (data ? data.ownerDocument || data : 0).documentElement;
 		return documentElement ? documentElement.nodeName.toLowerCase() !== 'html' : false;
 	}
@@ -79,12 +79,12 @@ export class XmlToJson {
 	 * @param {XMLXtring} xml
 	 * @return {JSON | Null}
 	 */
-	parse ( xml ) {
-		if ( xml && typeof xml === 'string' ) {
-			xml = this.convertXMLStringToDoc( xml );
+	parse(xml) {
+		if (xml && typeof xml === 'string') {
+			xml = this.convertXMLStringToDoc(xml);
 		}
 
-		return ( xml && this.isXML( xml ) ) ? this.parseNode( {}, xml.firstChild ) : null;
+		return (xml && this.isXML(xml)) ? this.parseNode({}, xml.firstChild) : null;
 	}
 
 
@@ -95,15 +95,15 @@ export class XmlToJson {
 	 * @param {XMLNode} node
 	 * @return {Object}
 	 */
-	parseAttributes ( node ) {
+	parseAttributes(node) {
 		let attributes = node.attributes,
 			obj = {};
 
 		// If the node has attributes, assign the new object properties
 		// corresponding to each attribute
-		if ( node.hasAttributes() ) {
-			for ( let i = 0; i < attributes.length; i++ ) {
-				obj[ attributes[i].name ] = this.parseValue( attributes[i].value );
+		if (node.hasAttributes()) {
+			for (let i = 0; i < attributes.length; i++) {
+				obj[attributes[i].name] = this.parseValue(attributes[i].value);
 			}
 		}
 
@@ -120,14 +120,14 @@ export class XmlToJson {
 	 * @param {XMLNodeMap} childNodes
 	 * @return none
 	 */
-	parseChildren ( parent, childNodes ) {
+	parseChildren(parent, childNodes) {
 		// If there are child nodes...
-		if ( childNodes.length > 0 ) {
+		if (childNodes.length > 0) {
 			// Loop over all the child nodes
-			for ( let i = 0; i < childNodes.length; i++ ) {
+			for (let i = 0; i < childNodes.length; i++) {
 				// If the child node is a XMLNode, parse the node
-				if ( childNodes[i].nodeType == 1 ) {
-					this.parseNode( parent, childNodes[i] );
+				if (childNodes[i].nodeType == 1) {
+					this.parseNode(parent, childNodes[i]);
 				}
 			}
 		}
@@ -142,31 +142,31 @@ export class XmlToJson {
 	 * @param {XMLNode} node
 	 * @return {Object}
 	 */
-	parseNode ( parent, node ) {
+	parseNode(parent, node) {
 		let nodeName = node.nodeName,
-			obj = Object.assign( {}, this.parseAttributes( node ) ),
+			obj = Object.assign({}, this.parseAttributes(node)),
 			tmp = null;
 
 		// If there is only one text child node, there is no need to process the children
-		if ( node.childNodes.length == 1 && node.childNodes[0].nodeType == 3 ) {
+		if (node.childNodes.length == 1 && node.childNodes[0].nodeType == 3) {
 			// If the node has attributes, then the object will already have properties.
 			// Add a new property 'text' with the value of the text content
-			if ( node.hasAttributes() ) {
-				obj['text'] = this.parseValue( node.childNodes[0].nodeValue );
+			if (node.hasAttributes()) {
+				obj['text'] = this.parseValue(node.childNodes[0].nodeValue);
 			}
 			// If there are no attributes, then the parent[nodeName] property value is
 			// simply the interpreted textual content
 			else {
-				obj = this.parseValue( node.childNodes[0].nodeValue );
+				obj = this.parseValue(node.childNodes[0].nodeValue);
 			}
 		}
 		// Otherwise, there are child XMLNode elements, so process them
 		else {
-			this.parseChildren( obj, node.childNodes );
+			this.parseChildren(obj, node.childNodes);
 		}
 
 		// Once the object has been processed, add it to the parent
-		this.addToParent( parent, nodeName, obj )
+		this.addToParent(parent, nodeName, obj)
 
 		// Return the parent
 		return parent;
@@ -180,18 +180,18 @@ export class XmlToJson {
 	 * @param {Mixed} val
 	 * @return {Mixed}
 	 */
-	parseValue ( val ) {
+	parseValue(val) {
 		// Create a numeric value from the passed parameter
-		let num = Number( val );
+		let num = Number(val);
 
 		// If the value is 'true' or 'false', parse it as a Boolean and return it
-		if ( val.toLowerCase() === 'true' || val.toLowerCase() === 'false' ) {
+		if (val.toLowerCase() === 'true' || val.toLowerCase() === 'false') {
 			return val.toLowerCase() == 'true';
 		}
 
 		// If the num parsed to a Number, return the numeric value
 		// Else if the valuse passed has no length (an attribute without value) return null,
 		// Else return the param as is
-		return ( isNaN( num ) ) ? val : ( val.length == 0 ) ? null : num;
+		return (isNaN(num)) ? val : (val.length == 0) ? null : num;
 	}
 }

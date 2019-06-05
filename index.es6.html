@@ -1,14 +1,31 @@
 <!doctype html>
 <html lang="en">
-
 <head>
 	<title>xmlToJson - ES6 build</title>
 
-	<script src="app.es6.js"></script>
+	<link rel="stylesheet" href="style.css">
+
+	<script type="module" src="XmlToJson.es6.js"></script>
+	<script type="module" src="app.es6.js"></script>
+	<script>
+		function transform() {
+			const input = document.getElementById('xmltext').value;
+			const json = new XmlToJson(input);
+			document.getElementById('jsontext').innerHTML = '<pre>' + JSON.stringify(json, null, 4) + '</pre>';
+		}
+	</script>
 </head>
 
 <body>
-	Open the developer console to inspect the parsed data
-</body>
+	<h1>xmlToJson Converter</h1>
 
+	<div class="wrapper">
+		<h4>Library-free Javascript Singleton to convert XML to JSON. <a href="https://github.com/andrewhouser/xmlToJson">Download on GitHub</a></h4>
+		<h3>XML to transform</h3>
+		<textarea id="xmltext" name="xmltext"></textarea>
+		<p><button onclick="transform()">transform</button></p>
+		<h3>Transformed JSON</h3>
+		<div id="jsontext" class="jsontext"></div>
+	</div>
+</body>
 </html>
